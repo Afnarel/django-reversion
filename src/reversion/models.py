@@ -2,11 +2,12 @@
 
 from __future__ import unicode_literals
 
+from django import VERSION
 from django.contrib.contenttypes.models import ContentType
-try:
-    from django.contrib.contenttypes.fields import GenericForeignKey
-except ImportError:  # Django < 1.9
+if VERSION < (1, 8):
     from django.contrib.contenttypes.generic import GenericForeignKey
+else:
+    from django.contrib.contenttypes.fields import GenericForeignKey
 from django.conf import settings
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist

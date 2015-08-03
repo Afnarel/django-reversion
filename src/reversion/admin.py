@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from functools import partial
 
-from django import template
+from django import template, VERSION
 from django.db import models, transaction, connection
 from django.conf.urls import patterns, url
 from django.contrib import admin
@@ -13,11 +13,13 @@ try:
     from django.contrib.admin.utils import unquote, quote
 except ImportError:  # Django < 1.7
     from django.contrib.admin.util import unquote, quote
-try:
+
+if VERSION < (1, 8):
+    from django.contrib.contenttypes.generic import GenericInlineModelAdmin, GenericRelation
+else:
     from django.contrib.contenttypes.admin import GenericInlineModelAdmin
     from django.contrib.contenttypes.fields import GenericRelation
-except ImportError:  # Django < 1.9
-    from django.contrib.contenttypes.generic import GenericInlineModelAdmin, GenericRelation
+
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.forms.formsets import all_valid
